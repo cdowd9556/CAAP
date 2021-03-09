@@ -1,24 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bAo-nd-oXp">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <scene sceneID="kc8-WU-WNw">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <viewController id="bAo-nd-oXp" customClass="ViewController" customModule="PanelTouch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ecs-cY-MtR"/>
+                        <viewControllerLayoutGuide type="bottom" id="eXc-zD-kdw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5aj-BW-kGR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bluetooth_Disconnected" translatesAutoresizingMaskIntoConstraints="NO" id="3xl-19-Nsx">
+                                <rect key="frame" x="112" y="758" width="190" height="71"/>
+                            </imageView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="127" minValue="0.0" maxValue="127" translatesAutoresizingMaskIntoConstraints="NO" id="xNT-dg-8WC">
+                                <rect key="frame" x="31" y="385" width="330" height="31"/>
+                                <connections>
+                                    <action selector="positionSliderChanged:" destination="bAo-nd-oXp" eventType="valueChanged" id="pSG-Vp-tPr"/>
+                                </connections>
+                            </slider>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofj-bL-6Rb">
+                                <rect key="frame" x="298" y="586" width="83" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Adjust" backgroundImage="Background">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="adjClick:" destination="bAo-nd-oXp" eventType="touchUpInside" id="y1z-RE-aM9"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <constraints>
+                            <constraint firstItem="xNT-dg-8WC" firstAttribute="top" secondItem="ecs-cY-MtR" secondAttribute="bottom" constant="341" id="XlY-F5-bmj"/>
+                            <constraint firstItem="xNT-dg-8WC" firstAttribute="leading" secondItem="5aj-BW-kGR" secondAttribute="leadingMargin" constant="24" id="anH-rJ-wfS"/>
+                            <constraint firstItem="xNT-dg-8WC" firstAttribute="leading" secondItem="5aj-BW-kGR" secondAttribute="leading" constant="33" id="b6z-YJ-phY"/>
+                            <constraint firstAttribute="trailing" secondItem="xNT-dg-8WC" secondAttribute="trailing" constant="55" id="fwX-fD-JAy"/>
+                            <constraint firstAttribute="centerX" secondItem="3xl-19-Nsx" secondAttribute="centerX" id="odd-1b-ptp"/>
+                            <constraint firstItem="xNT-dg-8WC" firstAttribute="top" secondItem="ecs-cY-MtR" secondAttribute="bottom" constant="172" id="sKU-GM-q7f"/>
+                            <constraint firstItem="eXc-zD-kdw" firstAttribute="top" secondItem="3xl-19-Nsx" secondAttribute="bottom" constant="33" id="zcP-jy-LOZ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="3xl-19-Nsx"/>
+                                <exclude reference="xNT-dg-8WC"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="anH-rJ-wfS"/>
+                                <exclude reference="sKU-GM-q7f"/>
+                                <exclude reference="zcP-jy-LOZ"/>
+                                <exclude reference="odd-1b-ptp"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="3xl-19-Nsx"/>
+                                <include reference="xNT-dg-8WC"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="anH-rJ-wfS"/>
+                                <exclude reference="sKU-GM-q7f"/>
+                                <include reference="zcP-jy-LOZ"/>
+                                <include reference="odd-1b-ptp"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="imgBluetoothStatus" destination="3xl-19-Nsx" id="74q-Ri-sOC"/>
+                        <outlet property="positionSlider" destination="xNT-dg-8WC" id="BnJ-5R-KXe"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ckI-gY-0fo" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-240.57971014492756" y="96.428571428571431"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Background" width="320" height="480"/>
+        <image name="Bluetooth_Disconnected" width="190.5" height="71"/>
+    </resources>
 </document>

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PanelTouch
+//@testable import PanelTouch
 
 class PanelTouchTests: XCTestCase {
     
