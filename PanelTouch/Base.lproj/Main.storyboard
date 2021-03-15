@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -38,6 +39,26 @@
                                     <action selector="adjClick:" destination="bAo-nd-oXp" eventType="touchUpInside" id="y1z-RE-aM9"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xwy-tK-GLL">
+                                <rect key="frame" x="298" y="123" width="83" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="TEST" backgroundImage="Background">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="recordAndPlaySweep:" destination="bAo-nd-oXp" eventType="touchUpInside" id="Van-rz-riG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQm-uG-V3K">
+                                <rect key="frame" x="298" y="218" width="83" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="CALC" backgroundImage="Background">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="rt60trigger:" destination="bAo-nd-oXp" eventType="touchUpInside" id="adO-c6-bRY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -55,9 +76,9 @@
                                 <exclude reference="xNT-dg-8WC"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="zcP-jy-LOZ"/>
                                 <exclude reference="anH-rJ-wfS"/>
                                 <exclude reference="sKU-GM-q7f"/>
-                                <exclude reference="zcP-jy-LOZ"/>
                                 <exclude reference="odd-1b-ptp"/>
                             </mask>
                         </variation>
@@ -67,9 +88,9 @@
                                 <include reference="xNT-dg-8WC"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="zcP-jy-LOZ"/>
                                 <exclude reference="anH-rJ-wfS"/>
                                 <exclude reference="sKU-GM-q7f"/>
-                                <include reference="zcP-jy-LOZ"/>
                                 <include reference="odd-1b-ptp"/>
                             </mask>
                         </variation>
@@ -87,5 +108,8 @@
     <resources>
         <image name="Background" width="320" height="480"/>
         <image name="Bluetooth_Disconnected" width="190.5" height="71"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

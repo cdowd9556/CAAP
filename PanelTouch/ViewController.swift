@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+    
+    var audioRecorder: AVAudioRecorder!
+    var audioPlayer: AVAudioPlayer!
+    var recordingSession: AVAudioSession!
     
     @IBOutlet weak var imgBluetoothStatus: UIImageView!
     @IBOutlet weak var positionSlider: UISlider!
@@ -45,13 +50,74 @@ class ViewController: UIViewController {
         positionSlider.setThumbImage(UIImage(named: "Bar"), for: UIControl.State())
         positionSlider.value = (127);
         
+        //create initialization of audio storage, as well as prepare player and getFileURL
+        func setupRecorder() {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let documentsDirectory = paths[0]
+            
+            let audioFilename = documentsDirectory.appendingPathComponent("SwiftCapture.m4a")
+            let settings = [AVFormatIDKey : Int(kAudioFormatAppleLossless), AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue, AVEncoderBitRateKey : 320000, AVNumberOfChannelsKey: 2, AVSampleRateKey: 44100.0 ] as [String: Any]
+            
+            var error: NSError?
+            
+            do {
+                audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            } catch {
+                audioRecorder = nil
+            }
+            if let err = error {
+                print("AVAudioRecorder error: \(err.localizedDescription)")
+            } else {
+                audioRecorder.delegate = self
+                audioRecorder.prepareToRecord()
+            }
+        }
         // Watch Bluetooth connection
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.connectionChanged(_:)), name: NSNotification.Name(rawValue: BLEServiceChangedStatusNotification), object: nil)
         
         // Start the Bluetooth discovery process
         _ = btDiscoverySharedInstance
+        
+        //define function to search for sine file, and trigger the player and recorder
+        func playAndRecordSetup() {
+            //guard let url = Bundle.main.url(forResource: "swiftSweep", withExtension: "wav") else {
+            //        print("url not found")
+            //        return
+            //}
+            guard let data = NSDataAsset(name: "swiftSweep") else {
+                print("sweepfile not found")
+                return
+            }
+            do {
+                    /// this codes for making this app ready to takeover the device audio
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+                    try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(0.005)
+                    try AVAudioSession.sharedInstance().setActive(true)
+
+                    /// initialize and set volume
+                    audioPlayer = try AVAudioPlayer(data: data.data, fileTypeHint: AVFileType.wav.rawValue)
+                    audioPlayer.volume = 1.0
+                
+                    guard let audioPlayer = audioPlayer else { return }
+                    
+                    audioPlayer.prepareToPlay()
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        setupRecorder()
+        playAndRecordSetup()
     }
     
+    // function to retrieve recorded file url for processing
+    func getRecordingURL() -> URL {
+        let fileManager = FileManager.default
+        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentDirectory = urls[0] as URL
+        let soundURL = documentDirectory.appendingPathComponent("RecordingResults.m4a")
+        return soundURL
+    }
+    //more lines to update bluetooth status if changed
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BLEServiceChangedStatusNotification), object: nil)
     }
@@ -62,12 +128,10 @@ class ViewController: UIViewController {
         self.stopTimerTXDelay()
     }
     
-    
+    //IBActions for buttons and sliders, and objc for connection changed
     @IBAction func positionSliderChanged(_ sender: UISlider) {
         currentValue = UInt8(sender.value)
     }
-    
-    
     
     @IBAction func adjClick(_ sender: UIButton) {
         
@@ -112,6 +176,24 @@ class ViewController: UIViewController {
                 }
             }
         });
+    }
+    var timer = Timer()
+    //IBAction to trigger the sweep and record the response
+    @IBAction func recordAndPlaySweep(_ sender: UIButton) {
+        print("playing")
+        audioPlayer.play()
+        timer = Timer.scheduledTimer(timeInterval: 0.07, target: self, selector: #selector(timerAction), userInfo: nil, repeats: false) //70 ms timer
+    }
+    @objc func timerAction(){
+        audioRecorder.record(forDuration: 9)
+        print("recording")
+        }
+    
+    //IBAction to trigger RT60 calculation
+    @IBAction func rt60trigger(_ sender: UIButton){
+        let recorded = getRecordingURL()
+        print("file retrieved")
+        print(recorded)
     }
     
     func sendPosition(_ position: UInt8) {
