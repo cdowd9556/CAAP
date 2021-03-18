@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		750795B025EB5F9500FCA5E3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 750795AF25EB5F9500FCA5E3 /* AVFoundation.framework */; };
 		750795B225EB5FB000FCA5E3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 750795B125EB5FB000FCA5E3 /* Accelerate.framework */; };
+		757907542600072300E848EF /* CalculateIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757907532600072300E848EF /* CalculateIR.swift */; };
 		75C7725425AFE30000FFE76A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7725325AFE30000FFE76A /* AppDelegate.swift */; };
 		75C7725625AFE30000FFE76A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7725525AFE30000FFE76A /* ViewController.swift */; };
 		75C7725925AFE30000FFE76A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75C7725725AFE30000FFE76A /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 		75C7726925AFE30100FFE76A /* PanelTouchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7726825AFE30100FFE76A /* PanelTouchTests.swift */; };
 		75C7727425AFE30100FFE76A /* PanelTouchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7727325AFE30100FFE76A /* PanelTouchUITests.swift */; };
 		75C7728225AFE8DA00FFE76A /* test file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7728125AFE8DA00FFE76A /* test file.swift */; };
+		75CDC9932602D241004691E3 /* scaledSineSweep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75CDC9922602D241004691E3 /* scaledSineSweep.wav */; };
 		75F15E3825F4894A0068C5A7 /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F15E3725F4894A0068C5A7 /* BTService.swift */; };
 		75F15E3D25F4898F0068C5A7 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F15E3C25F4898F0068C5A7 /* BTDiscovery.swift */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,8 @@
 /* Begin PBXFileReference section */
 		750795AF25EB5F9500FCA5E3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		750795B125EB5FB000FCA5E3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		757907532600072300E848EF /* CalculateIR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateIR.swift; sourceTree = "<group>"; };
+		7579076526019D1400E848EF /* Supporting Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Supporting Files"; sourceTree = "<group>"; };
 		75C7725025AFE30000FFE76A /* PanelTouch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PanelTouch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75C7725325AFE30000FFE76A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75C7725525AFE30000FFE76A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +57,7 @@
 		75C7727325AFE30100FFE76A /* PanelTouchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTouchUITests.swift; sourceTree = "<group>"; };
 		75C7727525AFE30100FFE76A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75C7728125AFE8DA00FFE76A /* test file.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "test file.swift"; sourceTree = "<group>"; };
+		75CDC9922602D241004691E3 /* scaledSineSweep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = scaledSineSweep.wav; sourceTree = "<group>"; };
 		75F15E3725F4894A0068C5A7 /* BTService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTService.swift; sourceTree = "<group>"; };
 		75F15E3C25F4898F0068C5A7 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,7 +128,10 @@
 				75F15E3725F4894A0068C5A7 /* BTService.swift */,
 				75C7728125AFE8DA00FFE76A /* test file.swift */,
 				75C7725525AFE30000FFE76A /* ViewController.swift */,
+				757907532600072300E848EF /* CalculateIR.swift */,
+				75CDC9922602D241004691E3 /* scaledSineSweep.wav */,
 				75C7725A25AFE30100FFE76A /* Assets.xcassets */,
+				7579076526019D1400E848EF /* Supporting Files */,
 				75C7725F25AFE30100FFE76A /* Info.plist */,
 			);
 			path = PanelTouch;
@@ -253,6 +261,7 @@
 			files = (
 				75C7725B25AFE30100FFE76A /* Assets.xcassets in Resources */,
 				75C7725925AFE30000FFE76A /* Main.storyboard in Resources */,
+				75CDC9932602D241004691E3 /* scaledSineSweep.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +291,7 @@
 				75F15E3825F4894A0068C5A7 /* BTService.swift in Sources */,
 				75C7728225AFE8DA00FFE76A /* test file.swift in Sources */,
 				75C7725425AFE30000FFE76A /* AppDelegate.swift in Sources */,
+				757907542600072300E848EF /* CalculateIR.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +392,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -439,7 +449,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

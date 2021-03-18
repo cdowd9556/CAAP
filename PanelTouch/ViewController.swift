@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+
 class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
     var audioRecorder: AVAudioRecorder!
@@ -27,6 +28,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     var sliderMax: UInt8 = 127
     var positivestep: UInt8 = 1
     var negativestep: UInt8 = 128
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,11 +54,14 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         
         //create initialization of audio storage, as well as prepare player and getFileURL
         func setupRecorder() {
+            //var outputFile: AVAudioFile
             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             let documentsDirectory = paths[0]
             
             let audioFilename = documentsDirectory.appendingPathComponent("SwiftCapture.m4a")
             let settings = [AVFormatIDKey : Int(kAudioFormatAppleLossless), AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue, AVEncoderBitRateKey : 320000, AVNumberOfChannelsKey: 2, AVSampleRateKey: 44100.0 ] as [String: Any]
+            //outputFile = try! AVAudioFile(forWriting: audioFilename, settings: settings)
+            
             
             var error: NSError?
             
@@ -84,18 +89,17 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
             //        print("url not found")
             //        return
             //}
-            guard let data = NSDataAsset(name: "swiftSweep") else {
-                print("sweepfile not found")
-                return
-            }
+            guard let sinePath = Bundle.main.url(forResource: "scaledSineSweep", withExtension: "wav") else { return }
+            
+            //take over device audio and set volume
             do {
-                    /// this codes for making this app ready to takeover the device audio
+                    
                     try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
                     try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(0.005)
                     try AVAudioSession.sharedInstance().setActive(true)
 
-                    /// initialize and set volume
-                    audioPlayer = try AVAudioPlayer(data: data.data, fileTypeHint: AVFileType.wav.rawValue)
+                    
+                    audioPlayer = try AVAudioPlayer(contentsOf: sinePath, fileTypeHint: AVFileType.wav.rawValue)
                     audioPlayer.volume = 1.0
                 
                     guard let audioPlayer = audioPlayer else { return }
@@ -109,12 +113,12 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         playAndRecordSetup()
     }
     
-    // function to retrieve recorded file url for processing
+    // function to retrieve recorded file url and convert to asset for processing
     func getRecordingURL() -> URL {
-        let fileManager = FileManager.default
-        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentDirectory = urls[0] as URL
-        let soundURL = documentDirectory.appendingPathComponent("RecordingResults.m4a")
+        let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+        //let fileManager = FileManag/Users/connordowd/Documents/Code/MATLAB/impulse responseer.default
+        //let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        let soundURL = documentsPath.appendingPathComponent("SwiftCapture")!.appendingPathExtension("m4a")
         return soundURL
     }
     //more lines to update bluetooth status if changed
@@ -177,7 +181,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
             }
         });
     }
+    
     var timer = Timer()
+    
     //IBAction to trigger the sweep and record the response
     @IBAction func recordAndPlaySweep(_ sender: UIButton) {
         print("playing")
@@ -189,13 +195,69 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         print("recording")
         }
     
-    //IBAction to trigger RT60 calculation
-    @IBAction func rt60trigger(_ sender: UIButton){
-        let recorded = getRecordingURL()
-        print("file retrieved")
-        print(recorded)
+    // convert recording URL into float array
+    func readM4aIntoFloats(url : URL) -> [Float]{
+        let audioFile = try! AVAudioFile(forReading: url as URL)
+        let audioFormat = audioFile.processingFormat
+        let audioFrameCount = UInt32(audioFile.length)
+        let buf = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: audioFrameCount)
+
+        try! audioFile.read(into: buf!)
+        var floatArray = Array(UnsafeBufferPointer(start: buf!.floatChannelData?[0], count:Int(buf!.frameLength)))
+        floatArray = Array(floatArray.dropFirst(1))
+        return floatArray
+    }
+    //convert the sweep URL to float array
+    func readWavIntoFloats(url: URL) -> [Float] {
+
+        let file = try! AVAudioFile(forReading: url)
+        let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: file.fileFormat.sampleRate, channels: 1, interleaved: false)
+
+        let buf = AVAudioPCMBuffer(pcmFormat: format!, frameCapacity: 700000)!
+        try! file.read(into: buf)
+
+        // this makes a copy, you might not want that
+        let floatArray = Array(UnsafeBufferPointer(start: buf.floatChannelData?[0], count:Int(buf.frameLength)))
+        let result = Array(floatArray.dropFirst(1))
+        return result
+
     }
     
+    //IBAction to trigger RT60 calculation
+    @IBAction func rt60trigger(_ sender: UIButton){
+        guard let sinePath = Bundle.main.url(forResource: "scaledSineSweep", withExtension: "wav") else { return }
+        var cleansweeper = readWavIntoFloats(url: sinePath)
+        var recording = readM4aIntoFloats(url: getRecordingURL())
+
+        let irArray = irInstance.calcIR(recorded: &recording, cleansweep: &cleansweeper)
+        //now write the IR to wav file for testing and observation
+        //use the same path to overwrite the microphone recording
+        let newurl = getRecordingURL()
+        let audioarray = irArray
+    
+        let outputFormatSettings = [AVFormatIDKey : Int(kAudioFormatMPEG4AAC), AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue, AVEncoderBitRateKey : 320000, AVNumberOfChannelsKey: 2, AVSampleRateKey: 44100.0 ] as [String: Any]
+    
+        let audioFile = try? AVAudioFile(forWriting: newurl, settings: outputFormatSettings, commonFormat: AVAudioCommonFormat.pcmFormatFloat32, interleaved: false)
+
+        let outputBuffer = AVAudioPCMBuffer(pcmFormat: audioFile!.processingFormat, frameCapacity: AVAudioFrameCount(audioarray.count))
+
+        // i had my samples in doubles, so convert then write
+
+        for i in 0..<audioarray.count {
+            outputBuffer!.floatChannelData!.pointee[i] = Float( audioarray[i] )
+        }
+        outputBuffer!.frameLength = AVAudioFrameCount( audioarray.count )
+
+        do{
+            try audioFile?.write(from: outputBuffer!)
+
+        } catch let error as NSError {
+            print("error:", error.localizedDescription)
+        }
+        print("IR Calculated, overwriting SwiftCapture file")
+    }
+    
+    //sends position to bluetooth module
     func sendPosition(_ position: UInt8) {
         //manipulating value based on feedback
         if !allowTX {
