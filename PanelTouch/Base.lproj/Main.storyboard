@@ -23,22 +23,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bluetooth_Disconnected" translatesAutoresizingMaskIntoConstraints="NO" id="3xl-19-Nsx">
                                 <rect key="frame" x="112" y="758" width="190" height="71"/>
                             </imageView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="127" minValue="0.0" maxValue="127" translatesAutoresizingMaskIntoConstraints="NO" id="xNT-dg-8WC">
-                                <rect key="frame" x="31" y="385" width="330" height="31"/>
-                                <connections>
-                                    <action selector="positionSliderChanged:" destination="bAo-nd-oXp" eventType="valueChanged" id="pSG-Vp-tPr"/>
-                                </connections>
-                            </slider>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofj-bL-6Rb">
-                                <rect key="frame" x="298" y="586" width="83" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Adjust" backgroundImage="Background">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="adjClick:" destination="bAo-nd-oXp" eventType="touchUpInside" id="y1z-RE-aM9"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xwy-tK-GLL">
                                 <rect key="frame" x="298" y="123" width="83" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -59,57 +43,119 @@
                                     <action selector="rt60trigger:" destination="bAo-nd-oXp" eventType="touchUpInside" id="adO-c6-bRY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lxp-Vm-bBv">
+                                <rect key="frame" x="70" y="428" width="88" height="83"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="arrow.up" catalog="system"/>
+                                <connections>
+                                    <action selector="upHoldDownWithSender:" destination="bAo-nd-oXp" eventType="touchDown" id="xAH-e6-Ogj"/>
+                                    <action selector="upReleaseWithSender:" destination="bAo-nd-oXp" eventType="touchUpInside" id="9Tu-Gb-z6P"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R3F-wd-e3q">
+                                <rect key="frame" x="70" y="586" width="88" height="83"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="arrow.down" catalog="system"/>
+                                <connections>
+                                    <action selector="downHoldDownWithSender:" destination="bAo-nd-oXp" eventType="touchDown" id="e5w-TI-9gs"/>
+                                    <action selector="downReleaseWithSender:" destination="bAo-nd-oXp" eventType="touchUpInside" id="ZGJ-rJ-UdJ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PANEL CONTROL ( HOLD DOWN)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBd-um-RAJ">
+                                <rect key="frame" x="20" y="370" width="277" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press TEST to play and record the sweep" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XLg-nk-e5k">
+                                <rect key="frame" x="51" y="186" width="312" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press CALC, then PLOT IR to view the results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x4a-N1-9JR">
+                                <rect key="frame" x="37" y="288" width="341" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hDz-3w-eqi">
+                                <rect key="frame" x="298" y="320" width="83" height="71"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="PLOT IR" backgroundImage="Background">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="plotter:" destination="bAo-nd-oXp" eventType="touchUpInside" id="hNc-DC-78I"/>
+                                    <segue destination="yfR-FM-6qe" kind="show" id="aEu-JU-rgL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="xNT-dg-8WC" firstAttribute="top" secondItem="ecs-cY-MtR" secondAttribute="bottom" constant="341" id="XlY-F5-bmj"/>
-                            <constraint firstItem="xNT-dg-8WC" firstAttribute="leading" secondItem="5aj-BW-kGR" secondAttribute="leadingMargin" constant="24" id="anH-rJ-wfS"/>
-                            <constraint firstItem="xNT-dg-8WC" firstAttribute="leading" secondItem="5aj-BW-kGR" secondAttribute="leading" constant="33" id="b6z-YJ-phY"/>
-                            <constraint firstAttribute="trailing" secondItem="xNT-dg-8WC" secondAttribute="trailing" constant="55" id="fwX-fD-JAy"/>
                             <constraint firstAttribute="centerX" secondItem="3xl-19-Nsx" secondAttribute="centerX" id="odd-1b-ptp"/>
-                            <constraint firstItem="xNT-dg-8WC" firstAttribute="top" secondItem="ecs-cY-MtR" secondAttribute="bottom" constant="172" id="sKU-GM-q7f"/>
                             <constraint firstItem="eXc-zD-kdw" firstAttribute="top" secondItem="3xl-19-Nsx" secondAttribute="bottom" constant="33" id="zcP-jy-LOZ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="3xl-19-Nsx"/>
-                                <exclude reference="xNT-dg-8WC"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="zcP-jy-LOZ"/>
-                                <exclude reference="anH-rJ-wfS"/>
-                                <exclude reference="sKU-GM-q7f"/>
                                 <exclude reference="odd-1b-ptp"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="3xl-19-Nsx"/>
-                                <include reference="xNT-dg-8WC"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="zcP-jy-LOZ"/>
-                                <exclude reference="anH-rJ-wfS"/>
-                                <exclude reference="sKU-GM-q7f"/>
                                 <include reference="odd-1b-ptp"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="imgBluetoothStatus" destination="3xl-19-Nsx" id="74q-Ri-sOC"/>
-                        <outlet property="positionSlider" destination="xNT-dg-8WC" id="BnJ-5R-KXe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ckI-gY-0fo" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-240.57971014492756" y="96.428571428571431"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="90u-XJ-g1F">
+            <objects>
+                <viewController id="yfR-FM-6qe" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ejv-pe-tIF"/>
+                        <viewControllerLayoutGuide type="bottom" id="gYs-aS-j9Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LvZ-hb-ijl" customClass="FDWaveformView" customModule="FDWaveformView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="b1O-jh-hF3"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NHh-wh-w2I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="543" y="96"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Background" width="320" height="480"/>
         <image name="Bluetooth_Disconnected" width="190.5" height="71"/>
+        <image name="arrow.down" catalog="system" width="120" height="128"/>
+        <image name="arrow.up" catalog="system" width="120" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

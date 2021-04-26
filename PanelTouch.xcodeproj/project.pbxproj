@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		750795B025EB5F9500FCA5E3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 750795AF25EB5F9500FCA5E3 /* AVFoundation.framework */; };
 		750795B225EB5FB000FCA5E3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 750795B125EB5FB000FCA5E3 /* Accelerate.framework */; };
 		757907542600072300E848EF /* CalculateIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757907532600072300E848EF /* CalculateIR.swift */; };
+		75B177502637326300FC49AB /* FDWaveformView in Frameworks */ = {isa = PBXBuildFile; productRef = 75B1774F2637326300FC49AB /* FDWaveformView */; };
 		75C7725425AFE30000FFE76A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7725325AFE30000FFE76A /* AppDelegate.swift */; };
 		75C7725625AFE30000FFE76A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7725525AFE30000FFE76A /* ViewController.swift */; };
 		75C7725925AFE30000FFE76A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75C7725725AFE30000FFE76A /* Main.storyboard */; };
@@ -68,6 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				750795B225EB5FB000FCA5E3 /* Accelerate.framework in Frameworks */,
+				75B177502637326300FC49AB /* FDWaveformView in Frameworks */,
 				750795B025EB5F9500FCA5E3 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,8 +171,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				757876EC26373C90008FC3E0 /* PBXTargetDependency */,
 			);
 			name = PanelTouch;
+			packageProductDependencies = (
+				75B1774F2637326300FC49AB /* FDWaveformView */,
+			);
 			productName = PanelTouch;
 			productReference = 75C7725025AFE30000FFE76A /* PanelTouch.app */;
 			productType = "com.apple.product-type.application";
@@ -243,6 +249,9 @@
 				Base,
 			);
 			mainGroup = 75C7724725AFE30000FFE76A;
+			packageReferences = (
+				75B1774E2637326300FC49AB /* XCRemoteSwiftPackageReference "FDWaveformView" */,
+			);
 			productRefGroup = 75C7725125AFE30000FFE76A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -314,6 +323,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		757876EC26373C90008FC3E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 757876EB26373C90008FC3E0 /* FDWaveformView */;
+		};
 		75C7726625AFE30100FFE76A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 75C7724F25AFE30000FFE76A /* PanelTouch */;
@@ -620,6 +633,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		75B1774E2637326300FC49AB /* XCRemoteSwiftPackageReference "FDWaveformView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fulldecent/FDWaveformView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		757876EB26373C90008FC3E0 /* FDWaveformView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75B1774E2637326300FC49AB /* XCRemoteSwiftPackageReference "FDWaveformView" */;
+			productName = FDWaveformView;
+		};
+		75B1774F2637326300FC49AB /* FDWaveformView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75B1774E2637326300FC49AB /* XCRemoteSwiftPackageReference "FDWaveformView" */;
+			productName = FDWaveformView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 75C7724825AFE30000FFE76A /* Project object */;
 }

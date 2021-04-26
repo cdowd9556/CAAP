@@ -63,7 +63,7 @@ class CalculateIR {
         let xPadded = xPad + recorded + xPad
         vDSP_conv(xPadded, 1, kEnd, -1, &result, 1, vDSP_Length(resultSize), vDSP_Length(scaledinverse.count))
         result.removeSubrange(ClosedRange(uncheckedBounds: (lower: Int((signalLength * fs) + Float(responseLength)), upper: result.count-1)))
-        let finalTrim = Array(result.dropFirst(Int((signalLength - 0.1) * fs)))
+        let finalTrim = Array(result.dropFirst(Int((signalLength - 0.15) * fs)))
         
         return finalTrim
         //zeropad .5 seconds evenly

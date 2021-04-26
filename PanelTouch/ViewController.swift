@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-
+import FDWaveformView
 
 class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
@@ -16,41 +16,19 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
     var audioPlayer: AVAudioPlayer!
     var recordingSession: AVAudioSession!
     
+    // Outlet for updating the bluetooth status image
     @IBOutlet weak var imgBluetoothStatus: UIImageView!
-    @IBOutlet weak var positionSlider: UISlider!
+    @IBOutlet weak var waveform: FDWaveformView!
     
-    
+    //boolean for allowing Bluetooth communication
     var timerTXDelay: Timer?
     var allowTX = true
-    //  create corresponding UInt8 variables for
-    var lastPosition: UInt8 = 127
-    var currentValue: UInt8 = 127
-    var sliderMax: UInt8 = 127
-    var positivestep: UInt8 = 1
-    var negativestep: UInt8 = 128
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
-        
-        // Rotate slider to vertical position
-        let superView = self.positionSlider.superview
-        positionSlider.removeFromSuperview()
-        positionSlider.removeConstraints(self.view.constraints)
-        positionSlider.translatesAutoresizingMaskIntoConstraints = true
-        positionSlider.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-        positionSlider.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * 3 / 2))
-        positionSlider.frame = CGRect(x: 0.0, y: 0.0, width: 100.0, height: 300.0)
-        superView?.addSubview(self.positionSlider)
-        positionSlider.autoresizingMask = [UIView.AutoresizingMask.flexibleLeftMargin, UIView.AutoresizingMask.flexibleRightMargin]
-        positionSlider.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
-        
-        // Set thumb image on slider
-        positionSlider.setThumbImage(UIImage(named: "Bar"), for: UIControl.State())
-        positionSlider.value = (127);
         
         //create initialization of audio storage, as well as prepare player and getFileURL
         func setupRecorder() {
@@ -93,8 +71,18 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
             
             //take over device audio and set volume
             do {
-                    
+                    //use external microphone if connection is detected
                     try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+                    let audioSession = AVAudioSession.sharedInstance()
+                    if let desc = audioSession.availableInputs?.first(where: { (desc) -> Bool in
+                        return desc.portType == AVAudioSessionPortUSBAudio
+                    }){
+                        do{
+                            try audioSession.setPreferredInput(desc)
+                        } catch let error{
+                            print(error)
+                        }
+                    }
                     try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(0.005)
                     try AVAudioSession.sharedInstance().setActive(true)
 
@@ -132,37 +120,30 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         self.stopTimerTXDelay()
     }
     
-    //IBActions for buttons and sliders, and objc for connection changed
-    @IBAction func positionSliderChanged(_ sender: UISlider) {
-        currentValue = UInt8(sender.value)
-    }
     
-    @IBAction func adjClick(_ sender: UIButton) {
-        
-        //check to make sure slider has actually changed value
-        if Int(currentValue) == lastPosition {
-            print("Unchanged")
-            return
-        }
-        //send position data as a positive number of steps
-        if Int(currentValue) < lastPosition {
-            positivestep = lastPosition - currentValue
-            print("Lowering")
-            lastPosition = currentValue
-            self.sendPosition(positivestep)
-            
-        }
-        //send position data as a negative number of steps
-        if Int(currentValue) > lastPosition {
-            negativestep = currentValue - lastPosition;
-            negativestep = negativestep + 127;
-            print("Raising")
-            lastPosition = currentValue
-            self.sendPosition(negativestep)
-        }
-    }
+    // panel control functions, handles hold and release
+    @IBAction func upHoldDown(sender:UIButton)
+     {
+        print("up hold down")
+        self.sendPosition(UInt8(1))
+     }
+    @IBAction func upRelease(sender:UIButton)
+     {
+        print("up release")
+        self.sendPosition(UInt8(2))
+     }
+    @IBAction func downHoldDown(sender:UIButton)
+     {
+        print("down hold down")
+        self.sendPosition(UInt8(3))
+     }
+    @IBAction func downRelease(sender:UIButton)
+     {
+        print("down release")
+        self.sendPosition(UInt8(4))
+     }
     
-    
+    // Handle disconnection or connection to bluetooth status
     @objc func connectionChanged(_ notification: Notification) {
         // Connection status changed. Indicate on GUI.
         let userInfo = (notification as NSNotification).userInfo as! [String: Bool]
@@ -195,7 +176,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         print("recording")
         }
     
-    // convert recording URL into float array
+    // convert the stored recording URL into float array
     func readM4aIntoFloats(url : URL) -> [Float]{
         let audioFile = try! AVAudioFile(forReading: url as URL)
         let audioFormat = audioFile.processingFormat
@@ -216,7 +197,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         let buf = AVAudioPCMBuffer(pcmFormat: format!, frameCapacity: 700000)!
         try! file.read(into: buf)
 
-        // this makes a copy, you might not want that
+        // this makes a copy
         let floatArray = Array(UnsafeBufferPointer(start: buf.floatChannelData?[0], count:Int(buf.frameLength)))
         let result = Array(floatArray.dropFirst(1))
         return result
@@ -241,7 +222,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
 
         let outputBuffer = AVAudioPCMBuffer(pcmFormat: audioFile!.processingFormat, frameCapacity: AVAudioFrameCount(audioarray.count))
 
-        // i had my samples in doubles, so convert then write
+        //had my samples in doubles, so convert then write
 
         for i in 0..<audioarray.count {
             outputBuffer!.floatChannelData!.pointee[i] = Float( audioarray[i] )
@@ -257,7 +238,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
         print("IR Calculated, overwriting SwiftCapture file")
     }
     
-    //sends position to bluetooth module
+    //sends data to bluetooth module
     func sendPosition(_ position: UInt8) {
         //manipulating value based on feedback
         if !allowTX {
@@ -280,6 +261,13 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDe
             }
         }
         
+    }
+    
+    @IBAction func plotter(_ sender: Any) {
+        self.waveform.audioURL = getRecordingURL()
+        self.waveform.doesAllowScrubbing = true
+        self.waveform.doesAllowStretch = true
+        self.waveform.doesAllowScroll = true
     }
     
     @objc func timerTXDelayElapsed() {
